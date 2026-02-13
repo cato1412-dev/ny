@@ -1,0 +1,766 @@
+/* ====== RESET NHẸ & BIẾN MÀU ====== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg-start: #1b0b2e;
+  --bg-end: #34174f;
+  --accent: #ff9ebc;
+  --accent-soft: #ffd5e4;
+  --accent-strong: #ff4c85;
+  --text-main: #fdf5ff;
+  --text-soft: #f0d8ff;
+  --paper: #fff9f4;
+  --shadow-soft: 0 18px 40px rgba(0, 0, 0, 0.4);
+  --radius-lg: 22px;
+  --radius-md: 14px;
+  --duration-slow: 1.1s;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  font-family: "Poppins", system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+  background: radial-gradient(circle at top left, var(--bg-start), var(--bg-end));
+  color: var(--text-main);
+  overflow-x: hidden;
+  position: relative;
+  /* Tối ưu scrolling trên mobile */
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
+}
+
+/* ====== BACKGROUND ANIMATION ====== */
+.background-gradient {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at 0% 0%, #ff9ebc33 0, transparent 55%),
+    radial-gradient(circle at 100% 0%, #ffc76a33 0, transparent 55%),
+    radial-gradient(circle at 50% 100%, #7b61ff33 0, transparent 60%);
+  mix-blend-mode: screen;
+  opacity: 0.7;
+  pointer-events: none;
+  animation: bgPulse 12s ease-in-out infinite alternate;
+  z-index: -3;
+}
+
+@keyframes bgPulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  100% {
+    transform: scale(1.05);
+    opacity: 0.9;
+  }
+}
+
+/* ====== FLOATING HEARTS ====== */
+.floating-hearts {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: -2;
+}
+
+.floating-hearts::before,
+.floating-hearts::after {
+  content: "";
+  position: absolute;
+  inset: -40%;
+  background-image: radial-gradient(circle at 20% 20%, #ffffff33 0 2px, transparent 2px),
+    radial-gradient(circle at 80% 40%, #ff9ebc40 0 2px, transparent 2px),
+    radial-gradient(circle at 30% 80%, #ffd5e440 0 2px, transparent 2px),
+    radial-gradient(circle at 70% 70%, #ffffff44 0 2px, transparent 2px);
+  opacity: 0.7;
+  animation: heartsDrift 36s linear infinite;
+}
+
+.floating-hearts::after {
+  animation-duration: 52s;
+  animation-direction: reverse;
+  opacity: 0.45;
+}
+
+@keyframes heartsDrift {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  100% {
+    transform: translate3d(0, -10%, 0) rotate(1turn);
+  }
+}
+
+/* ====== PAGE LAYOUT ====== */
+.page {
+  min-height: 100vh;
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 40px 18px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  justify-content: center;
+}
+
+@media (min-width: 768px) {
+  .page {
+    padding: 48px 32px 40px;
+    gap: 40px;
+  }
+}
+
+/* ====== HERO ====== */
+.hero {
+  text-align: center;
+  animation: heroFadeIn 1.2s ease-out both;
+}
+
+@keyframes heroFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero__overline {
+  font-size: 0.9rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--text-soft);
+  opacity: 0.8;
+  margin-bottom: 6px;
+}
+
+.hero__title {
+  font-family: "Great Vibes", cursive;
+  font-size: clamp(2.6rem, 4vw + 1.4rem, 3.6rem);
+  color: var(--accent-soft);
+  text-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+  margin-bottom: 10px;
+}
+
+.hero__subtitle {
+  font-size: 1rem;
+  max-width: 520px;
+  margin: 0 auto;
+  color: var(--text-soft);
+  line-height: 1.6;
+}
+
+.hero__highlight {
+  color: var(--accent);
+  font-weight: 500;
+}
+
+/* ====== ENVELOPE / LETTER ====== */
+.letter-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  position: relative;
+}
+
+.envelope {
+  position: relative;
+  width: min(480px, 100%);
+  aspect-ratio: 4 / 3;
+  margin: 0 auto;
+  transform-origin: center;
+  animation: envelopeFloat 3.2s ease-in-out infinite;
+  /* Thêm chiều sâu để cánh thư lật 3D giống lật trang sách */
+  perspective: 1200px;
+  transform-style: preserve-3d;
+  /* Giữ kích thước container không đổi khi mở thư */
+  overflow: visible;
+}
+
+@keyframes envelopeFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Thân phong bì phía sau */
+.envelope__bottom {
+  position: absolute;
+  inset: 18% 6% 10%;
+  background: linear-gradient(145deg, #ffe0eb, #ffb3c8);
+  border-radius: 0;
+  box-shadow: var(--shadow-soft);
+  overflow: hidden;
+  z-index: 0;
+}
+
+.envelope__bottom::before,
+.envelope__bottom::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #ff8fa8, #ff4c85);
+  opacity: 0;
+  transition: opacity 0.4s ease-out;
+}
+
+body.letter-opened .envelope__bottom::before {
+  opacity: 0.35;
+}
+
+body.letter-opened .envelope__bottom::after {
+  opacity: 0.1;
+}
+
+/* 4 cánh phong thư */
+.envelope__flap {
+  position: absolute;
+  inset: 18% 6% 10%;
+  background: linear-gradient(145deg, #ffe0eb, #ffb3c8);
+  transform-origin: center;
+  transform: translateZ(0);
+  box-shadow: var(--shadow-soft);
+  transition: transform 0.85s cubic-bezier(0.24, 0.8, 0.36, 1),
+    opacity 0.85s ease-out;
+  z-index: 1;
+  /* Tối ưu performance cho animation */
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+}
+
+/* Hình dạng kim cương với 4 cánh */
+.envelope__flap--top {
+  clip-path: polygon(0 0, 100% 0, 50% 50%);
+  /* Bản lề nằm trên CẠNH TRÊN (đáy tam giác), lật như nắp thư */
+  transform-origin: 50% 0%;
+}
+
+.envelope__flap--bottom {
+  clip-path: polygon(0 100%, 100% 100%, 50% 50%);
+  /* Bản lề nằm trên CẠNH DƯỚI */
+  transform-origin: 50% 100%;
+}
+
+.envelope__flap--left {
+  clip-path: polygon(0 0, 50% 50%, 0 100%);
+  /* Bản lề nằm trên CẠNH TRÁI */
+  transform-origin: 0% 50%;
+}
+
+.envelope__flap--right {
+  clip-path: polygon(100% 0, 100% 100%, 50% 50%);
+  /* Bản lề nằm trên CẠNH PHẢI */
+  transform-origin: 100% 50%;
+}
+
+/* Khi mở thư: 4 cánh lật 3D như lật trang sách,
+   mũi nhọn chĩa ra ngoài, cạnh trong vẫn sát thân phong bì */
+body.letter-opened .envelope__flap--top {
+  transform: rotateX(-180deg);
+  opacity: 0.98;
+}
+
+body.letter-opened .envelope__flap--bottom {
+  transform: rotateX(180deg);
+  opacity: 0.98;
+}
+
+body.letter-opened .envelope__flap--left {
+  transform: rotateY(150deg);
+  opacity: 0.98;
+}
+
+body.letter-opened .envelope__flap--right {
+  transform: rotateY(-150deg);
+  opacity: 0.98;
+}
+
+.envelope__paper {
+  position: absolute;
+  /* Đặt lá thư nằm trong phần thân phong bì */
+  inset: 6% 12% 16%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 1200px;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.letter {
+  width: 100%;
+  height: auto;
+  background: var(--paper);
+  border-radius: var(--radius-md);
+  padding: 18px 20px 20px;
+  box-shadow: 0 16px 35px rgba(23, 10, 40, 0.45);
+  color: #4b3253;
+  transform-origin: bottom center;
+  /* Để lá thư nằm sâu hơn trong phong bì ở trạng thái ban đầu */
+  transform: translateY(34%) rotateX(82deg);
+  opacity: 0;
+  transition: transform 0.9s cubic-bezier(0.19, 1, 0.22, 1),
+    opacity 0.9s cubic-bezier(0.19, 1, 0.22, 1);
+  position: relative;
+  z-index: 4;
+  /* Tối ưu performance */
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+}
+
+body.letter-opened .letter {
+  /* Khi mở ra, lá thư hiển thị đủ nội dung, không bị cắt bớt */
+  transform: translateY(8%) rotateX(0deg);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.letter__title {
+  font-family: "Great Vibes", cursive;
+  font-size: 1.8rem;
+  color: #c43b6f;
+  margin-bottom: 4px;
+}
+
+.letter__meta {
+  font-size: 0.78rem;
+  color: #b190b1;
+  margin-bottom: 10px;
+}
+
+.letter__body {
+  font-size: 0.92rem;
+  line-height: 1.7;
+  color: #5f3f63;
+  /* Cho phép nội dung thư cao theo đúng nội dung, không tạo thanh cuộn bên trong */
+  max-height: none;
+  overflow: visible;
+  padding-right: 4px;
+}
+
+.letter__body p + p {
+  margin-top: 8px;
+}
+
+.letter__accent {
+  color: #c43b6f;
+  font-weight: 600;
+}
+
+.letter__closing {
+  margin-top: 10px;
+}
+
+.letter__signature {
+  font-family: "Great Vibes", cursive;
+  font-size: 1.4rem;
+  color: #c43b6f;
+}
+
+/* ====== SEAL BUTTON ====== */
+.envelope__seal {
+  position: absolute;
+  /* Đặt trái tim gần tâm phong thư, không thò ra khỏi mép dưới */
+  inset: 52% auto auto 50%;
+  transform: translate(-50%, -50%);
+  border: none;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: transparent;
+  transform-origin: center;
+  /* Không cần hiệu ứng riêng cho nền nữa, chỉ giữ lại trái tim */
+  box-shadow: none;
+  animation: none;
+  z-index: 2;
+  /* Tối ưu cho touch trên mobile */
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  /* Đảm bảo kích thước đủ lớn để touch (tối thiểu 44x44px) */
+  min-width: 70px;
+  min-height: 70px;
+}
+
+@keyframes sealPulse {
+  0%,
+  100% {
+    transform: translateX(-50%) scale(1);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+  }
+  50% {
+    transform: translateX(-50%) scale(1.07);
+    box-shadow: 0 14px 32px rgba(0, 0, 0, 0.7);
+  }
+}
+
+.seal__heart {
+  /* Trái tim lớn, nhưng vừa đủ để không vượt ra ngoài phong thư */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 170px;
+  height: 170px;
+  font-size: 5rem;
+  color: #ff4c85;
+  transform-origin: center;
+  animation: heartBeat 1.2s ease-in-out infinite;
+  text-shadow: 0 0 16px rgba(255, 76, 133, 0.7),
+    0 10px 24px rgba(0, 0, 0, 0.55);
+}
+
+@keyframes heartBeat {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  30% {
+    transform: scale(1.25);
+  }
+}
+
+body.letter-opened .envelope__seal {
+  opacity: 0;
+  transform: translateX(-50%) scale(0.6);
+  pointer-events: none;
+  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+
+/* ====== CTA HINT (overlay hướng dẫn, chỉ còn text) ====== */
+.cta-hint {
+  position: absolute;
+  top: 32%;
+  right: 50%;
+  transform: translate(50%, -50%);
+  color: var(--text-main);
+  font-size: 0.9rem;
+  font-weight: 500;
+  pointer-events: none; /* không chặn click vào trái tim */
+  z-index: 5;
+  white-space: nowrap;
+}
+
+body.letter-opened .cta-hint {
+  opacity: 0;
+  transform: translateY(-50%) translateX(-6px);
+  transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+}
+
+/* ====== EXTRAS ====== */
+.extras {
+  display: grid;
+  gap: 14px;
+  margin-top: 4px;
+}
+
+@media (min-width: 768px) {
+  .extras {
+    grid-template-columns: minmax(0, 2.2fr) minmax(0, 1.4fr);
+    align-items: stretch;
+  }
+}
+
+.quote-card {
+  background: linear-gradient(
+      140deg,
+      rgba(255, 214, 243, 0.12),
+      rgba(130, 91, 255, 0.4)
+    ),
+    radial-gradient(circle at 0% 0%, rgba(255, 158, 188, 0.4), transparent 55%);
+  border-radius: 20px;
+  padding: 18px 20px;
+  box-shadow: 0 18px 40px rgba(11, 1, 30, 0.8);
+  border: 1px solid rgba(255, 230, 255, 0.3);
+}
+
+.quote-card__text {
+  font-size: 0.96rem;
+  line-height: 1.7;
+  color: var(--text-main);
+}
+
+.quote-card__highlight {
+  color: var(--accent-soft);
+  font-weight: 500;
+}
+
+.small-note {
+  background: radial-gradient(circle at 100% 0, #ff9ebc44, transparent 55%),
+    rgba(8, 1, 20, 0.8);
+  border-radius: 18px;
+  padding: 14px 16px;
+  border: 1px solid rgba(255, 220, 255, 0.25);
+  font-size: 0.86rem;
+  color: var(--text-soft);
+  line-height: 1.6;
+}
+
+/* ====== FOOTER ====== */
+.footer {
+  text-align: center;
+  margin-top: 8px;
+  font-size: 0.9rem;
+  color: rgba(255, 235, 255, 0.8);
+}
+
+.footer__heart {
+  color: var(--accent);
+}
+
+.footer__you {
+  color: var(--accent-soft);
+  font-weight: 500;
+}
+
+/* ====== TYPEWRITER EFFECT (JS CLASS) ====== */
+.is-typing {
+  position: relative;
+}
+
+.is-typing::after {
+  content: "";
+  position: absolute;
+  right: -2px;
+  width: 1px;
+  top: 0;
+  bottom: 0;
+  background: #c43b6f;
+  animation: caretBlink 0.8s steps(1) infinite;
+}
+
+@keyframes caretBlink {
+  0%,
+  50% {
+    opacity: 1;
+  }
+  50.01%,
+  100% {
+    opacity: 0;
+  }
+}
+
+/* ====== RESPONSIVE ====== */
+/* Tablet và màn hình nhỏ */
+@media (max-width: 768px) {
+  .page {
+    padding: 32px 16px 28px;
+    gap: 28px;
+    justify-content: center;
+  }
+
+  .hero__title {
+    font-size: clamp(2rem, 5vw, 2.8rem);
+  }
+
+  .hero__subtitle {
+    font-size: 0.9rem;
+  }
+
+  .envelope {
+    width: 100%;
+    max-width: 420px;
+  }
+
+  .envelope__seal {
+    width: 90px;
+    height: 90px;
+  }
+
+  .seal__heart {
+    width: 90px;
+    height: 90px;
+    font-size: 4.5rem;
+  }
+
+  .quote-card,
+  .small-note {
+    padding: 16px 18px;
+  }
+}
+
+/* Mobile - màn hình nhỏ */
+@media (max-width: 480px) {
+  .page {
+    padding: 20px 12px 20px;
+    gap: 20px;
+    justify-content: center;
+    min-height: 100vh;
+  }
+
+  .hero {
+    margin-bottom: 0;
+  }
+
+  .hero__overline {
+    font-size: 0.8rem;
+    margin-bottom: 4px;
+  }
+
+  .hero__title {
+    font-size: clamp(1.8rem, 8vw, 2.2rem);
+    margin-bottom: 6px;
+  }
+
+  .hero__subtitle {
+    font-size: 0.85rem;
+    line-height: 1.5;
+    margin-bottom: 0;
+  }
+
+  .letter-section {
+    gap: 14px;
+  }
+
+  .envelope {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .envelope__seal {
+    width: 70px;
+    height: 70px;
+  }
+
+  .seal__heart {
+    width: 70px;
+    height: 70px;
+    font-size: 3.5rem;
+  }
+
+  .letter {
+    padding: 14px 12px 16px;
+  }
+
+  .letter__title {
+    font-size: 1.4rem;
+    margin-bottom: 3px;
+  }
+
+  .letter__meta {
+    font-size: 0.72rem;
+    margin-bottom: 8px;
+  }
+
+  .letter__body {
+    font-size: 0.82rem;
+    line-height: 1.65;
+  }
+
+  .letter__signature {
+    font-size: 1.2rem;
+  }
+
+  .cta-hint {
+    right: 50%;
+    top: 28%;
+    transform: translateX(50%) translateY(-50%);
+    font-size: 0.75rem;
+    padding: 8px 14px;
+    white-space: nowrap;
+  }
+
+  .extras {
+    margin-top: 0;
+    gap: 12px;
+  }
+
+  .quote-card,
+  .small-note {
+    padding: 14px 16px;
+    font-size: 0.84rem;
+    line-height: 1.6;
+  }
+
+  .footer {
+    font-size: 0.85rem;
+    margin-top: 0;
+  }
+
+  /* Giảm góc xoay cánh thư trên mobile để không tràn màn hình */
+  body.letter-opened .envelope__flap--top {
+    transform: rotateX(-140deg);
+  }
+
+  body.letter-opened .envelope__flap--bottom {
+    transform: rotateX(140deg);
+  }
+
+  body.letter-opened .envelope__flap--left {
+    transform: rotateY(140deg);
+  }
+
+  body.letter-opened .envelope__flap--right {
+    transform: rotateY(-140deg);
+  }
+}
+
+/* Mobile rất nhỏ (iPhone SE, etc) */
+@media (max-width: 360px) {
+  .page {
+    padding: 18px 10px 18px;
+    gap: 18px;
+    justify-content: center;
+    min-height: 100vh;
+  }
+
+  .hero__title {
+    font-size: 1.6rem;
+  }
+
+  .hero__subtitle {
+    font-size: 0.8rem;
+  }
+
+  .envelope__seal {
+    width: 60px;
+    height: 60px;
+  }
+
+  .seal__heart {
+    width: 60px;
+    height: 60px;
+    font-size: 3rem;
+  }
+
+  .letter {
+    padding: 12px 10px 14px;
+  }
+
+  .letter__title {
+    font-size: 1.3rem;
+  }
+
+  .letter__body {
+    font-size: 0.78rem;
+  }
+
+  .cta-hint {
+    font-size: 0.7rem;
+    padding: 6px 12px;
+  }
+
+  .quote-card,
+  .small-note {
+    padding: 12px 14px;
+    font-size: 0.8rem;
+  }
+}
+
