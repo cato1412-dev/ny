@@ -242,7 +242,6 @@ body.letter-opened .envelope__bottom::after {
   z-index: 1;
   /* Tối ưu performance cho animation */
   will-change: transform, opacity;
-  backface-visibility: hidden;
 }
 
 /* Hình dạng kim cương với 4 cánh */
